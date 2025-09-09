@@ -1,0 +1,16 @@
+services:
+  test-db:
+    image: postgres:15-alpine
+    container_name: qa-test-postgres
+    environment:
+      POSTGRES_DB: qa_test
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "127.0.0.1:5434:5432"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d qa_test"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
